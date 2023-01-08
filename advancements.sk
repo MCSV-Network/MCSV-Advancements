@@ -1,0 +1,122 @@
+command /testname [<text>]:
+	permission: admin
+	trigger:
+		set {_name} to arg-1
+		set player's display name to "&e%{_name}% &a%player%"
+		send "changed ur name" to player
+
+command /resettestname:
+	permission: admin
+	trigger:
+		reset display name of player
+		send "reset" to player
+
+#command /suicide:
+#	trigger:
+#		send "&c5秒後に死ぬﾖ" to player
+#		wait 5 seconds
+#		kill player
+#		send "&cｼﾝﾀﾞﾖ" to player
+
+command /testadvancements:
+	trigger:
+		create an advancement tab named "my_tab":
+			create an advancement named "my_root":
+				set background of advancement to oak log
+				set title of advancement to "&bMCSV-TEST"
+				# description list (since 1.5.0)
+				set description of advancement to "&6製作ちゅー", "やってみてね!"
+				set frame of advancement to goal
+				set toast of advancement to true
+				set announcement of advancement to true
+				set root of advancement to true
+				build advancement
+			create an advancement named "my_advancement":
+				set parent of advancement to "my_tab/my_root"
+				set row of advancement to 1
+				set column of advancement to 1
+				set title of advancement to "&aおまえをpanしてやるっ!"
+				set description of advancement to "&d/panコマンドを使用する。"
+				set max progression of advancement to 1
+				set icon of advancement to stick of mending
+				build advancement
+			create an advancement named "my_advancement1":
+				set parent of advancement to "my_tab/my_advancement"
+				set row of advancement to 1
+				set column of advancement to 2
+#				set frame of advancement to challenge
+				set title of advancement to "&a一生panしてやるっ!"
+				set description of advancement to "&d/panコマンドを100回使用する。"
+				set max progression of advancement to 100
+				set icon of advancement to wooden sword of mending
+				build advancement
+			create an advancement named "my_advancement2":
+				set max progression of advancement to 3
+				set parent of advancement to "my_tab/my_root"
+				set row of advancement to 2
+				set column of advancement to 1
+				set title of advancement to "&a芸術家への一歩"
+				set description of advancement to "&d/artコマンドを使用する。"
+				set max progression of advancement to 1
+				set icon of advancement to dirt of mending
+				build advancement
+			create an advancement named "my_advancement3":
+				set max progression of advancement to 3
+				# multi-parent advancement (since 1.5.0)
+				# multi-parent advancements cannot have a parent that is a root advancement
+#				set parent of advancement to "my_tab/my_advancement2"
+				set parent of advancement to "my_tab/my_root"
+#				set parent of advancement to "my_tab/my_advancement" and "my_tab/my_advancement2"
+				set row of advancement to 3
+				set column of advancement to 1
+				set title of advancement to "&bばいばい所持金"
+				set description of advancement to "&d所持金が1000円以下になる"
+				set max progression of advancement to 1
+				set icon of advancement to golden ingot of mending
+				build advancement
+			create an advancement named "my_advancement4":
+				set max progression of advancement to 3
+				# multi-parent advancement (since 1.5.0)
+				# multi-parent advancements cannot have a parent that is a root advancement
+				set parent of advancement to "my_tab/my_root"
+#				set parent of advancement to "my_tab/my_advancement" and "my_tab/my_advancement2"
+				set row of advancement to 4
+				set column of advancement to 1
+				set title of advancement to "&b4つめの実績"
+				set description of advancement to "&dまだ何もないよ"
+				set max progression of advancement to 1
+				set icon of advancement to diamond of mending
+				build advancement
+			build tab
+command /toastsk:
+	trigger:
+		display toast using diamond, "toast" and challenge to player
+#on join:
+#	add the custom advancement "my_tab/my_root" to custom advancements of player
+
+on command "/pan":
+	add 1 to progress of the custom advancement "my_tab/my_advancement" for player
+	add 1 to progress of the custom advancement "my_tab/my_advancement1" for player
+
+on command "/art":
+	add 1 to progress of the custom advancement "my_tab/my_advancement2" for player
+
+
+every tick:
+	loop all players:
+		if loop-player's money is lower than 1001:
+			add 1 to progress of the custom advancement "my_tab/my_advancement3" for loop-player
+#		create an advancement tab named "mcsv-test":
+#			build tab
+#			create advancement named "test":
+#				set root of advancement to true
+#				set background of advancement to obsidian
+#				build advancement
+
+#command /removeadvancements:
+#	trigger:
+#		add the custom advancement "my_tab/my_root" to custom advancements of player
+#		remove the custom advancement "my_tab/my_root" from custom advancements of player
+#		remove the custom advancement "my_tab/my_advancement" from custom advancements of player
+#		remove the custom advancement "my_tab/my_advancement2" from custom advancements of player
+#		remove the custom advancement "my_tab/my_advancement3" from custom advancements of player
